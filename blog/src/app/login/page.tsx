@@ -1,12 +1,12 @@
 'use client'
 
+import { Suspense, useState } from 'react'
 import { login } from './actions'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { AlertCircle, Mail } from 'lucide-react'
-import { useState } from 'react'
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams()
   const message = searchParams.get('message')
   const isUnconfirmed = message?.toLowerCase().includes('email not confirmed')
@@ -59,5 +59,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: '2rem' }}>Loading login...</div>}>
+      <LoginForm />
+    </Suspense>
   )
 }

@@ -1,12 +1,12 @@
 'use client'
 
+import { Suspense, useState } from 'react'
 import { signup } from '../login/actions'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
-import { useState } from 'react'
 
-export default function RegisterPage() {
+function RegisterForm() {
   const searchParams = useSearchParams()
   const message = searchParams.get('message')
   const isSuccess = searchParams.get('success') === 'true'
@@ -77,5 +77,13 @@ export default function RegisterPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: '2rem' }}>Loading registration...</div>}>
+      <RegisterForm />
+    </Suspense>
   )
 }
