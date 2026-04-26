@@ -1,9 +1,10 @@
 'use client'
 
+import { Suspense } from 'react'
 import { createPost } from './actions'
 import { useSearchParams } from 'next/navigation'
 
-export default function CreatePostPage() {
+function CreatePostForm() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
 
@@ -43,5 +44,13 @@ export default function CreatePostPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function CreatePostPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: '2rem' }}>Loading form...</div>}>
+      <CreatePostForm />
+    </Suspense>
   )
 }
