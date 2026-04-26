@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react'
 import { signup } from '../login/actions'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 
 function RegisterForm() {
   const searchParams = useSearchParams()
@@ -41,9 +41,10 @@ function RegisterForm() {
                 <span>{message}</span>
               </div>
             )}
-            <form action={(formData) => {
+            <form action={async (formData) => {
               setIsPending(true)
-              signup(formData)
+              await signup(formData)
+              setIsPending(false)
             }} style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="form-group">
                 <label className="form-label" htmlFor="name">Full Name</label>
@@ -65,7 +66,8 @@ function RegisterForm() {
                   <option value="Admin">Admin (Full Access & Delete Anything)</option>
                 </select>
               </div>
-              <button className="btn btn-primary" type="submit" style={{ width: '100%', marginTop: '0.5rem' }} disabled={isPending}>
+              <button className="btn btn-primary" type="submit" style={{ width: '100%', marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} disabled={isPending}>
+                {isPending && <Loader2 size={18} className="animate-spin" />}
                 {isPending ? 'Creating Account...' : 'Continue'}
               </button>
             </form>

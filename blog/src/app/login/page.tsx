@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react'
 import { login } from './actions'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { AlertCircle, Mail } from 'lucide-react'
+import { AlertCircle, Mail, Loader2 } from 'lucide-react'
 
 function LoginForm() {
   const searchParams = useSearchParams()
@@ -37,9 +37,10 @@ function LoginForm() {
           </div>
         ) : null}
 
-        <form action={(formData) => {
+        <form action={async (formData) => {
           setIsPending(true)
-          login(formData)
+          await login(formData)
+          setIsPending(false)
         }} style={{ display: 'flex', flexDirection: 'column' }}>
           <div className="form-group">
             <label className="form-label" htmlFor="email">Email address</label>
@@ -49,7 +50,8 @@ function LoginForm() {
             <label className="form-label" htmlFor="password">Password</label>
             <input className="form-input" id="password" name="password" type="password" required placeholder="••••••••" />
           </div>
-          <button className="btn btn-primary" type="submit" style={{ width: '100%' }} disabled={isPending}>
+          <button className="btn btn-primary" type="submit" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} disabled={isPending}>
+            {isPending && <Loader2 size={18} className="animate-spin" />}
             {isPending ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
