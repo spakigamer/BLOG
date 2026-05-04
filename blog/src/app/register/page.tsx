@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useTransition } from 'react'
 import { signup } from '../login/actions'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -10,7 +10,7 @@ function RegisterForm() {
   const searchParams = useSearchParams()
   const message = searchParams.get('message')
   const isSuccess = searchParams.get('success') === 'true'
-  const [isPending, setIsPending] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
   return (
     <div className="animate-in" style={{ maxWidth: '440px', margin: '4rem auto' }}>
@@ -41,10 +41,10 @@ function RegisterForm() {
                 <span>{message}</span>
               </div>
             )}
-            <form action={async (formData) => {
-              setIsPending(true)
-              await signup(formData)
-              setIsPending(false)
+            <form action={(formData) => {
+              startTransition(async () => {
+                await signup(formData)
+              })
             }} style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="form-group">
                 <label className="form-label" htmlFor="name">Full Name</label>
