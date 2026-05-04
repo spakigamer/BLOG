@@ -22,21 +22,9 @@ function RegisterForm() {
           Join our premium blogging community.
         </p>
 
-        {isSuccess ? (
-          <div className="alert alert-warning" style={{ flexDirection: 'column', textAlign: 'center', gap: '1rem', padding: '2rem 1.5rem' }}>
-            <CheckCircle2 size={48} color="var(--warning-text)" />
-            <div>
-              <strong style={{ display: 'block', fontSize: '1.1rem', marginBottom: '0.5rem' }}>Verification Required</strong>
-              We've sent a confirmation link to your email address. Please click it to verify your account and sign in.
-            </div>
-            <Link href="/login" className="btn btn-secondary" style={{ marginTop: '1rem', width: '100%' }}>
-              Back to Sign In
-            </Link>
-          </div>
-        ) : (
-          <>
-            {message && (
-              <div className="alert alert-error">
+        <>
+          {message && (
+            <div className="alert alert-error">
                 <AlertCircle size={20} />
                 <span>{message}</span>
               </div>
@@ -76,7 +64,6 @@ function RegisterForm() {
               Already registered? <Link href="/login" style={{ fontWeight: '500' }}>Sign in to your account</Link>
             </div>
           </>
-        )}
       </div>
     </div>
   )
